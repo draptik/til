@@ -1,0 +1,14 @@
+div(ng-include='"components/navbar/navbar.html"')
+.container
+  p
+    | This is the tilitem view.
+  form.tilitem-form(ng-submit="addTilitem()" name="tilitemForm")
+    textarea.form-control(ng-model="newTilitem" rows="3" placeholder="Enter an item" required)
+    input.btn.btn-primary(type="submit" ng-disabled="tilitemForm.$invalid" value="Post")
+  ul.tilitem-list
+    li(ng-repeat='tilitem in tilitems')
+      header {{tilitem.author.name}}
+      p {{tilitem.content}}
+      ul.category-list
+        li(ng-repeat='category in tilitem.categories')
+          span {{category.name}}
