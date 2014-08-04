@@ -6,6 +6,12 @@ angular.module('tilApp')
 
     // Grab the initial set of available Tilitems
     $http.get('api/tilitems').success(function (tilitems) {
+
+      /* dummy implementation until backend is implemented... */
+      angular.forEach(tilitems, function (value, key) {
+        value.categories = [{name: 'tag1'}, {name: 'tag2'}, {name: 'tag3'}, {name: 'tag4'}];
+      });
+
       $scope.tilitems = tilitems;
 
       // Update array with any new or deleted items pushed from the socket

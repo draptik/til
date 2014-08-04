@@ -8,6 +8,7 @@
 var Thing = require('../api/thing/thing.model');
 var Tilitem = require('../api/tilitem/tilitem.model');
 var User = require('../api/user/user.model');
+var Category = require('../api/category/category.model');
 
 // called from app.js
 exports.seed = function() {
@@ -36,13 +37,17 @@ exports.seed = function() {
 
   // Adopted from http://www.frederiknakstad.com/2013/04/12/seeding-mongodb-through-your-mongoose-models/
   //
-  // NOTE: Mongoose create() returns a promise which can be used be 'then'
+  // NOTE: Mongoose create()          returns a promise which can be used be 'then'
+  // NOTE: Mongoose findOne().exec()  returns a promise which can be used be 'then'
   //
   // remove users...
   User.remove().exec()
     .then(function() {
       // ...and tilitems
       return Tilitem.remove().exec();
+    })
+    .then(function() {
+      return Category.remove().exec();
     })
 
   // create users
@@ -63,20 +68,42 @@ exports.seed = function() {
     });
   })
 
-  // create tilitems
+  // create categories
   .then(function() {
     return User.findOne({
       name: 'Admin'
     }, function(err, user) {
-      Tilitem.create({
-        content: 'learning javascript basics',
+      // console.log('CA: user ' + user);
+      return Category.create({
+        name: 'tag1',
         author: user
       }, {
-        content: 'learning mongoose',
+        name: 'tag2',
         author: user
+      }, function() {
+        console.log('finished populating categories');
+      });
+    }).exec(); /* <-- !! findOne().exec() returns promise !! */
+  })
+
+  // create tilitems
+  .then(function() {
+    return Category.findOne({
+      name: 'tag1'
+    }, function(err, category) {
+      // console.log('TI: category ' + category);
+      return Tilitem.create({
+        content: 'learning javascript basics',
+        categories: [category],
+        author: category.author
+      }, {
+        content: 'learning mongoose',
+        categories: [category],
+        author: category.author
       }, function() {
         console.log('finished populating tilitems');
       });
-    })
-  });
+    });
+  })
+
 };

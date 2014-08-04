@@ -9,3 +9,6 @@ div(ng-include='"components/navbar/navbar.html"')
     li(ng-repeat='tilitem in tilitems')
       header {{tilitem.author.name}}
       p {{tilitem.content}}
+      ul.category-list
+        li(ng-repeat='category in tilitem.categories')
+          span {{category.name}}

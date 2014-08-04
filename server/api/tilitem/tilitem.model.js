@@ -9,7 +9,11 @@ var TilitemSchema = new Schema({
   author: {
     type: Schema.Types.ObjectId,
     ref: 'User'
-  }
+  },
+  categories: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Category'
+  }]
 });
 
 TilitemSchema.statics = {
