@@ -3,8 +3,16 @@
 angular.module('tilApp')
   .controller('TilitemCtrl', function ($scope, $http, socket) {
     $scope.newTilitem = '';
+    $scope.selectedCategory = undefined;
+
+    // Get categories
+    // TODO Currently this gets ALL categories (not user-categories)!
+    $http.get('api/categories').success(function (categories) {
+      $scope.categories = categories;
+    });
 
     // Grab the initial set of available Tilitems
+    // TODO Currently this gets ALL tilitems (not user-tilitems)!
     $http.get('api/tilitems').success(function (tilitems) {
       $scope.tilitems = tilitems;
 
@@ -29,6 +37,11 @@ angular.module('tilApp')
     // Use our rest api to post a new tilitem
     $scope.addTilitem = function () {
       $http.post('api/tilitems', { content: $scope.newTilitem });
+      // TODO Fix backend api to accept categories (user specific)
+      // $http.post('api/tilitems', {
+      //   content: $scope.newTilitem,
+      //   categories: [$scope.selectedCategory]
+      // });
       $scope.newTilitem = '';
     };
   });
