@@ -68,28 +68,46 @@ exports.seed = function() {
     });
   })
 
-  // create categories
+  // create categories for Admin user
   .then(function() {
     return User.findOne({
       name: 'Admin'
     }, function(err, user) {
       // console.log('CA: user ' + user);
       return Category.create({
-        name: 'tag1',
+        name: 'tag1admin',
         author: user
       }, {
-        name: 'tag2',
+        name: 'tag2admin',
         author: user
       }, function() {
-        console.log('finished populating categories');
+        console.log('finished populating categories for Admin user');
       });
     }).exec(); /* <-- !! findOne().exec() returns promise !! */
   })
 
-  // create tilitems
+  // create categories for Test User
+  .then(function() {
+    return User.findOne({
+      name: 'Test User'
+    }, function(err, user) {
+      // console.log('CA: user ' + user);
+      return Category.create({
+        name: 'tag1test',
+        author: user
+      }, {
+        name: 'tag2test',
+        author: user
+      }, function() {
+        console.log('finished populating categories for test user');
+      });
+    }).exec(); /* <-- !! findOne().exec() returns promise !! */
+  })
+
+  // create tilitems for Admin user
   .then(function() {
     return Category.findOne({
-      name: 'tag1'
+      name: 'tag1admin'
     }, function(err, category) {
       // console.log('TI: category ' + category);
       return Tilitem.create({
@@ -101,9 +119,29 @@ exports.seed = function() {
         categories: [category],
         author: category.author
       }, function() {
-        console.log('finished populating tilitems');
+        console.log('finished populating tilitems for Admin user');
       });
-    });
+    }).exec();
+  })
+
+  // create tilitems for Test user
+  .then(function() {
+    return Category.findOne({
+      name: 'tag1test'
+    }, function(err, category) {
+      // console.log('TI: category ' + category);
+      return Tilitem.create({
+        content: 'learning javascript basics',
+        categories: [category],
+        author: category.author
+      }, {
+        content: 'learning mongoose',
+        categories: [category],
+        author: category.author
+      }, function() {
+        console.log('finished populating tilitems for Test user');
+      });
+    }).exec();
   })
 
 };
