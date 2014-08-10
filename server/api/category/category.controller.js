@@ -11,6 +11,17 @@ exports.index = function(req, res) {
   });
 };
 
+// Get list of categories
+exports.search = function(req, res) {
+  console.log('BACKEND SEARCH STRING ' + req.params.search);
+  var searchQuery = new RegExp(req.params.search, 'i');
+  Category.find({ author: req.user._id, name: searchQuery }, function (err, categories) {
+    if(err) { return handleError(res, err); }
+    console.log('BACKEND SEARCH RESULT ' + categories);
+    return res.json(200, categories);
+  });
+};
+
 // Get a single category
 exports.show = function(req, res) {
   Category.findById(req.params.id, function (err, category) {

@@ -4,11 +4,14 @@ div(ng-include='"components/navbar/navbar.html"')
     | This is the tilitem view.
   form.tilitem-form(ng-submit="addTilitem()" name="tilitemForm")
     textarea.form-control(ng-model="newTilitem" rows="3" placeholder="Enter an item" required)
-    input.form-control(
-      ng-model="selectedCategory"
-      typeahead="category.name for category in categories | filter:$viewValue | limitTo:8"
-      type="text"
-      placeholder="Enter a category")
+    //- input.form-control(
+    //-   ng-model="selectedCategory"
+    //-   typeahead="category.name for category in categories | filter:$viewValue | limitTo:8"
+    //-   type="text"
+    //-   placeholder="Enter a category")
+    tags-input(ng-model="selectedCategories" display-property="name")
+      auto-complete(source="loadCategories($query)")
+    p Model {{ selectedCategories }}
     input.btn.btn-primary(type="submit" ng-disabled="tilitemForm.$invalid" value="Post")
   ul.tilitem-list
     li(ng-repeat='tilitem in tilitems')

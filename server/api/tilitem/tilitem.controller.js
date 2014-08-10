@@ -2,6 +2,7 @@
 
 var _ = require('lodash');
 var Tilitem = require('./tilitem.model');
+var Category = require('../category/category.model');
 
 // Get list of tilitems
 exports.index = function(req, res) {
@@ -26,11 +27,36 @@ exports.create = function(req, res) {
   // ignore date
   delete req.body.date;
 
+  // console.log('req.body...');
+  // console.dir(req.body.categories[0]);
+
   var tilitem = new Tilitem(_.merge({ author: req.user._id}, req.body));
-  tilitem.save(function (err, tilitem) {
-    if(err) { return handleError(res, err); }
-    return res.json(201, tilitem);
+  // console.log('tilitem...');
+  // console.dir(tilitem);
+
+  var categories = req.body.categories[0];
+  _.each(categories, function (category) {
+    // console.log('for loop. category...');
+    // console.dir(category);
+    var cat = new Category(_.merge({author: req.user._id}, category));
+    cat.name = category.name;
+    // console.log('cat...');
+    // console.dir(cat);
+    cat.save(function (err, c) {
+      tilitem.categories.push(c);
+      // console.log('BEFORE SAVE tilitem...');
+      // console.dir(tilitem);
+      tilitem.save(function (err, tilitem) {
+        if(err) { return handleError(res, err); }
+        return res.json(201, tilitem);
+      });
+    });
   });
+
+  // tilitem.save(function (err, tilitem) {
+  //   if(err) { return handleError(res, err); }
+  //   return res.json(201, tilitem);
+  // });
 };
 
 // Updates an existing tilitem in the DB.
@@ -60,5 +86,6 @@ exports.destroy = function(req, res) {
 };
 
 function handleError(res, err) {
+  console.log('error: ' + err);
   return res.send(500, err);
 }

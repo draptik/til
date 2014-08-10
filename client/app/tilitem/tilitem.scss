@@ -1,3 +1,5 @@
+@import "compass/css3";
+
 .tilitem-form {
   clear: both;
   .btn-primary {
@@ -27,7 +29,13 @@
     padding-left: 0;
     li {
       display: inline;
-      border: 0;
+      color: rgb(46, 46, 46);
+      font-weight: bold;
+      font-family: proxima-nova, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      padding: 2px 5px;
+      border: 1px solid rgb(195, 195, 195);
+      background-color: rgb(247, 247, 247);
+      @include border-radius(4px);
     }
   }
 }
