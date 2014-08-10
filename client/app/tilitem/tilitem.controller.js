@@ -6,13 +6,11 @@ angular.module('tilApp')
     $scope.selectedCategory = undefined;
 
     // Get categories
-    // TODO Currently this gets ALL categories (not user-categories)!
     $http.get('api/categories').success(function (categories) {
       $scope.categories = categories;
     });
 
     // Grab the initial set of available Tilitems
-    // TODO Currently this gets ALL tilitems (not user-tilitems)!
     $http.get('api/tilitems').success(function (tilitems) {
       $scope.tilitems = tilitems;
 
