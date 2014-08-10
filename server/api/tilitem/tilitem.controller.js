@@ -5,7 +5,8 @@ var Tilitem = require('./tilitem.model');
 
 // Get list of tilitems
 exports.index = function(req, res) {
-  Tilitem.loadRecent(function (err, tilitems) {
+  var userId = req.user._id;
+  Tilitem.loadRecent(userId, function (err, tilitems) {
     if(err) { return handleError(res, err); }
     return res.json(200, tilitems);
   });

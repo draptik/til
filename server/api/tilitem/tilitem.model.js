@@ -17,8 +17,8 @@ var TilitemSchema = new Schema({
 });
 
 TilitemSchema.statics = {
-  loadRecent: function (cb) {
-    this.find({})
+  loadRecent: function (userId, cb) {
+    this.find({ author: userId })
     .populate({path: 'author categories', select: 'name'})
     .sort('-date')
     .limit(20)
