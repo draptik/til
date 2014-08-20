@@ -3,7 +3,7 @@
 // Idea from: http://www.ng-newsletter.com/posts/d3-on-angular.html
 // For a slightly better example see: https://gist.github.com/auser/6506865
 angular.module('tilApp')
-  .directive('d3Bars', function($window, $timeout, d3Service) {
+  .directive('d3DemoBars', function($window, $timeout, d3Service) {
     return {
       restrict: 'EC',
       link: function(scope, element, attrs) {

@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: d3Bars', function () {
+describe('Directive: d3DemoBars', function () {
 
   // load the directive's module
   beforeEach(module('tilApp'));
