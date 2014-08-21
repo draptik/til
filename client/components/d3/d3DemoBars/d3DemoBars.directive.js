@@ -53,13 +53,16 @@ angular.module('tilApp')
             if (!data) return;
 
             // setup variables
-            var width = d3.select(element[0]).node().offsetWidth - margin,
-              // calculate the height
-              height = scope.data.length * (barHeight + barPadding),
-              // Use the category20() scale function for multicolor support
-              color = d3.scale.category20(),
-              // our xScale
-              xScale = d3.scale.linear()
+            var width = d3.select(element[0]).node().offsetWidth - margin;
+
+            // calculate the height
+            var height = scope.data.length * (barHeight + barPadding);
+
+            // Use the category20() scale function for multicolor support
+            var color = d3.scale.category20();
+
+            // our xScale
+            var xScale = d3.scale.linear()
               .domain([0, d3.max(data, function(d) {
                 return d.score;
               })])
@@ -86,6 +89,8 @@ angular.module('tilApp')
               .attr('width', function(d) {
                 return xScale(d.score);
               });
+
+            // add text to the bars
             svg.selectAll('text')
               .data(data)
               .enter()
